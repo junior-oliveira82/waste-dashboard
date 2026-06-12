@@ -1,11 +1,12 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Leaf, Sliders, GitCompare, LineChart, BarChart3 } from "lucide-react";
+import { Leaf, Sliders, GitCompare, LineChart, BarChart3, Scale } from "lucide-react";
 
 const items = [
   { to: "/", label: "Entrada de Dados", icon: Sliders },
   { to: "/comparacao", label: "Comparação Tecnológica", icon: GitCompare },
   { to: "/financeiro", label: "Análise Financeira (TEA)", icon: LineChart },
   { to: "/comparador", label: "Comparador de Municípios", icon: BarChart3 },
+  { to: "/equilibrio", label: "Ponto de Equilíbrio", icon: Scale },
 ] as const;
 
 export function AppSidebar() {
