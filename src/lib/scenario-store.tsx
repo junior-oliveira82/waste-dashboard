@@ -24,7 +24,7 @@ export type Inputs = {
   energiaPorToneladaHTC: number;
 };
 
-const DEFAULT: Inputs = {
+export const DEFAULT: Inputs = {
   forsu: 80,
   lodo: 20,
   umidade: 60,
@@ -57,7 +57,7 @@ export type RouteResult = {
   payback: number;
 };
 
-function computeRoute(i: Inputs, kind: "pirolise" | "htc"): RouteResult {
+export function computeRoute(i: Inputs, kind: "pirolise" | "htc"): RouteResult {
   const massaDiaria = i.forsu + i.lodo; // t/dia
   const massaAnual = massaDiaria * 330; // t/ano
 

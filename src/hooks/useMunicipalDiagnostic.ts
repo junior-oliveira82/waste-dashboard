@@ -36,14 +36,14 @@ export interface DiagnosticoMunicipal {
   nomeRegiao: string;
 }
 
-function classificar(total: number): Classificacao {
+export function classificar(total: number): Classificacao {
   if (total < 20) return "Inviável";
   if (total < 50) return "Marginal";
   if (total < 150) return "Viável";
   return "Altamente Viável";
 }
 
-function calcularDiagnostico(municipio: MunicipioSelecionado, populacao: number): DiagnosticoMunicipal {
+export function calcularDiagnostico(municipio: MunicipioSelecionado, populacao: number): DiagnosticoMunicipal {
   const params = snisRegional[municipio.regiao];
   const forsu =
     (populacao * params.geracaoRSUPerCapita * params.indiceColetaRSU * params.fracaoOrganicaRSU) / 1000;
@@ -77,7 +77,7 @@ function extrairPop(data: unknown, chaveAno: string): number {
   return 0;
 }
 
-async function fetchPopulacao(id: number): Promise<number> {
+export async function fetchPopulacao(id: number): Promise<number> {
   // Tentativa 1 — Censo 2022 (agregado 4709, variável 93)
   try {
     const url1 = `https://servicodados.ibge.gov.br/api/v3/agregados/4709/periodos/2022/variaveis/93?localidades=N6[${id}]`;

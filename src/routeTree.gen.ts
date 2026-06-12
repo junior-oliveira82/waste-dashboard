@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as FinanceiroRouteImport } from './routes/financeiro'
+import { Route as ComparadorRouteImport } from './routes/comparador'
 import { Route as ComparacaoRouteImport } from './routes/comparacao'
 import { Route as IndexRouteImport } from './routes/index'
 
 const FinanceiroRoute = FinanceiroRouteImport.update({
   id: '/financeiro',
   path: '/financeiro',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ComparadorRoute = ComparadorRouteImport.update({
+  id: '/comparador',
+  path: '/comparador',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ComparacaoRoute = ComparacaoRouteImport.update({
@@ -32,30 +38,34 @@ const IndexRoute = IndexRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/comparacao': typeof ComparacaoRoute
+  '/comparador': typeof ComparadorRoute
   '/financeiro': typeof FinanceiroRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/comparacao': typeof ComparacaoRoute
+  '/comparador': typeof ComparadorRoute
   '/financeiro': typeof FinanceiroRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/comparacao': typeof ComparacaoRoute
+  '/comparador': typeof ComparadorRoute
   '/financeiro': typeof FinanceiroRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/comparacao' | '/financeiro'
+  fullPaths: '/' | '/comparacao' | '/comparador' | '/financeiro'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/comparacao' | '/financeiro'
-  id: '__root__' | '/' | '/comparacao' | '/financeiro'
+  to: '/' | '/comparacao' | '/comparador' | '/financeiro'
+  id: '__root__' | '/' | '/comparacao' | '/comparador' | '/financeiro'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   ComparacaoRoute: typeof ComparacaoRoute
+  ComparadorRoute: typeof ComparadorRoute
   FinanceiroRoute: typeof FinanceiroRoute
 }
 
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/financeiro'
       fullPath: '/financeiro'
       preLoaderRoute: typeof FinanceiroRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/comparador': {
+      id: '/comparador'
+      path: '/comparador'
+      fullPath: '/comparador'
+      preLoaderRoute: typeof ComparadorRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/comparacao': {
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   ComparacaoRoute: ComparacaoRoute,
+  ComparadorRoute: ComparadorRoute,
   FinanceiroRoute: FinanceiroRoute,
 }
 export const routeTree = rootRouteImport
