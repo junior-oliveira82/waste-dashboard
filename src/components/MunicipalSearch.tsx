@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import type { IbgeMunicipio, MunicipioSelecionado } from "@/hooks/useMunicipalDiagnostic";
+import type { IbgeMunicipio } from "@/hooks/useMunicipalDiagnostic";
+import type { MunicipioSelecionado } from "@/lib/scenario-store";
 
 interface Props {
   municipios: IbgeMunicipio[];

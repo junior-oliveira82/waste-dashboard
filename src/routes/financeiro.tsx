@@ -1,6 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useScenario, runMonteCarlo, type RouteResult } from "@/lib/scenario-store";
+import { useMunicipalDiagnostic } from "@/hooks/useMunicipalDiagnostic";
+import { generateTEAReport } from "@/utils/generatePDF";
+import type { TEAReportData } from "@/types/report";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -88,11 +91,36 @@ function RevenueSlider({
 }
 
 function Financeiro() {
-  const { inputs, setInput, pirolise, htc } = useScenario();
+  const { inputs, setInput, pirolise, htc, municipio } = useScenario();
+  const { diagnostico } = useMunicipalDiagnostic();
   const [rota, setRota] = useState<"pirolise" | "htc">("pirolise");
   const [seed, setSeed] = useState(0);
 
   const sim = useMemo(() => runMonteCarlo(inputs, rota, 500), [inputs, rota, seed]);
+
+  function handleExportPDF() {
+    const simP = runMonteCarlo(inputs, "pirolise", 500);
+    const simH = runMonteCarlo(inputs, "htc", 500);
+    const vplMedioP = simP.pts.reduce((acc, pt) => acc + pt.vpl, 0) / simP.pts.length;
+    const vplMedioH = simH.pts.reduce((acc, pt) => acc + pt.vpl, 0) / simH.pts.length;
+
+    const reportData: TEAReportData = {
+      municipio,
+      populacao:     diagnostico?.populacao     ?? null,
+      forsuEstimada: diagnostico?.forsu         ?? null,
+      lodoEstimado:  diagnostico?.lodo          ?? null,
+      totalResiduos: diagnostico?.totalResiduos ?? null,
+      classificacao: diagnostico?.classificacao ?? null,
+      inputs,
+      pirolise,
+      htc,
+      monteCarloPirolise: { probPositivo: simP.probPositivo, vplMedio: vplMedioP },
+      monteCarloHTC:      { probPositivo: simH.probPositivo, vplMedio: vplMedioH },
+      dataGeracao: new Date(),
+    };
+
+    generateTEAReport(reportData);
+  }
 
   return (
     <div className="p-8 max-w-6xl mx-auto space-y-8 print-area">
@@ -104,7 +132,7 @@ function Financeiro() {
           </p>
         </div>
         <Button
-          onClick={() => window.print()}
+          onClick={handleExportPDF}
           className="no-print gap-2 shadow-sm"
         >
           <FileDown className="size-4" /> Exportar Relatório PDF
