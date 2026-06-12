@@ -1,0 +1,42 @@
+{
+  "N": {
+    "nome": "Norte",
+    "geracaoRSUPerCapita": 0.82,
+    "indiceColetaRSU": 0.79,
+    "fracaoOrganicaRSU": 0.57,
+    "geracaoLodoKgHabAno": 5.8,
+    "atendimentoEsgoto": 0.12
+  },
+  "NE": {
+    "nome": "Nordeste",
+    "geracaoRSUPerCapita": 0.87,
+    "indiceColetaRSU": 0.80,
+    "fracaoOrganicaRSU": 0.54,
+    "geracaoLodoKgHabAno": 7.2,
+    "atendimentoEsgoto": 0.38
+  },
+  "CO": {
+    "nome": "Centro-Oeste",
+    "geracaoRSUPerCapita": 1.10,
+    "indiceColetaRSU": 0.91,
+    "fracaoOrganicaRSU": 0.51,
+    "geracaoLodoKgHabAno": 10.1,
+    "atendimentoEsgoto": 0.54
+  },
+  "SE": {
+    "nome": "Sudeste",
+    "geracaoRSUPerCapita": 1.18,
+    "indiceColetaRSU": 0.96,
+    "fracaoOrganicaRSU": 0.49,
+    "geracaoLodoKgHabAno": 13.4,
+    "atendimentoEsgoto": 0.84
+  },
+  "S": {
+    "nome": "Sul",
+    "geracaoRSUPerCapita": 1.10,
+    "indiceColetaRSU": 0.96,
+    "fracaoOrganicaRSU": 0.42,
+    "geracaoLodoKgHabAno": 11.7,
+    "atendimentoEsgoto": 0.80
+  }
+}

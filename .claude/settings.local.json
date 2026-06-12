@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(node_modules\\\\.bin\\\\tsc --noEmit)",
+      "PowerShell(Get-Command *)",
+      "PowerShell(Get-ChildItem *)",
+      "Skill(run)",
+      "Bash(grep -Hm1 ^description: 'C:\\\\Users\\\\junio\\\\OneDrive\\\\Área de Trabalho\\\\WTE Site Dash Sistema/.claude/skills/*/SKILL.md')",
+      "Bash(echo \"exit: $?\")",
+      "Bash(where bun *)",
+      "Bash(where npm *)",
+      "Bash(where node *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -s http://localhost:8081/)",
+      "Bash(git init *)",
+      "Bash(git add *)"
+    ]
+  }
+}
