@@ -477,7 +477,7 @@ function Equilibrio() {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={gateData}
-                    margin={{ top: 8, right: 8, bottom: 0, left: 0 }}
+                    margin={{ top: 10, right: 20, bottom: 40, left: 20 }}
                   >
                     <CartesianGrid
                       strokeDasharray="3 3"
@@ -485,23 +485,25 @@ function Equilibrio() {
                     />
                     <XAxis
                       dataKey="label"
-                      tick={{ fontSize: 18 }}
+                      tick={{ fontSize: 13 }}
+                      angle={-35}
+                      textAnchor="end"
                       label={{
                         value: "Gate fee (R$/t)",
                         position: "insideBottom",
                         offset: -2,
-                        fontSize: 18,
+                        fontSize: 13,
                         fill: "oklch(0.55 0 0)",
                       }}
                     />
                     <YAxis
-                      tick={{ fontSize: 18 }}
+                      tick={{ fontSize: 13 }}
                       tickFormatter={(v: number) => `${v.toFixed(0)} M`}
                       label={{
                         value: "VPL (R$ M)",
                         angle: -90,
                         position: "insideLeft",
-                        fontSize: 18,
+                        fontSize: 13,
                         fill: "oklch(0.55 0 0)",
                       }}
                     />
