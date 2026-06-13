@@ -7,13 +7,19 @@ interface PLDResult {
   isFallback: false;
 }
 
-type SubmercadoKey = "SE" | "S" | "NE" | "N";
+type SubmercadoKey = "SUDESTE_CENTRO_OESTE" | "SUL" | "NORDESTE" | "NORTE";
+
+function toConfigKey(submercado: string): SubmercadoKey {
+  switch (submercado) {
+    case "S":  return "SUL";
+    case "NE": return "NORDESTE";
+    case "N":  return "NORTE";
+    default:   return "SUDESTE_CENTRO_OESTE"; // SE e CO
+  }
+}
 
 export function usePLD(submercado: string): PLDResult {
-  const key = (["SE", "S", "NE", "N"].includes(submercado)
-    ? submercado
-    : "SE") as SubmercadoKey;
-
+  const key = toConfigKey(submercado);
   return {
     pld: pldConfig[key],
     dataReferencia: pldConfig.dataReferencia,
