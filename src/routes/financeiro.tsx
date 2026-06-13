@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useScenario, runMonteCarlo, type RouteResult } from "@/lib/scenario-store";
 import { useMunicipalDiagnostic } from "@/hooks/useMunicipalDiagnostic";
 import { generateTEAReport } from "@/utils/generatePDF";
@@ -96,7 +96,11 @@ function Financeiro() {
   const [rota, setRota] = useState<"pirolise" | "htc">("pirolise");
   const [seed, setSeed] = useState(0);
 
-  const sim = useMemo(() => runMonteCarlo(inputs, rota, 500), [inputs, rota, seed]);
+  const [sim, setSim] = useState<ReturnType<typeof runMonteCarlo> | null>(null);
+
+  useEffect(() => {
+    setSim(runMonteCarlo(inputs, rota, 500));
+  }, [inputs, rota, seed]);
 
   async function handleExportPDF() {
     const simP = runMonteCarlo(inputs, "pirolise", 500);
@@ -220,9 +224,9 @@ function Financeiro() {
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid sm:grid-cols-3 gap-3">
-            <KpiCard icon={Percent} label="Prob. VPL > 0" value={`${(sim.probPositivo * 100).toFixed(1)}%`} tone={sim.probPositivo > 0.5 ? "good" : "bad"} />
-            <KpiCard icon={TrendingUp} label="VPL médio" value={`R$ ${(sim.pts.reduce((a, p) => a + p.vpl, 0) / sim.pts.length).toFixed(1)} M`} />
-            <KpiCard icon={Sparkles} label="Iterações" value={`${sim.pts.length}`} />
+            <KpiCard icon={Percent} label="Prob. VPL > 0" value={sim ? `${(sim.probPositivo * 100).toFixed(1)}%` : "--"} tone={sim && sim.probPositivo > 0.5 ? "good" : "bad"} />
+            <KpiCard icon={TrendingUp} label="VPL médio" value={sim ? `R$ ${(sim.pts.reduce((a, p) => a + p.vpl, 0) / sim.pts.length).toFixed(1)} M` : "--"} />
+            <KpiCard icon={Sparkles} label="Iterações" value={sim ? `${sim.pts.length}` : "--"} />
           </div>
           <div className="h-96">
             <ResponsiveContainer width="100%" height="100%">
@@ -233,7 +237,7 @@ function Financeiro() {
                 <ZAxis range={[20, 20]} />
                 <Tooltip cursor={{ strokeDasharray: "3 3" }} contentStyle={{ borderRadius: 8, border: "1px solid oklch(0.9 0.015 160)" }} />
                 <ReferenceLine y={0} stroke="oklch(0.6 0.22 25)" strokeDasharray="4 4" label={{ value: "VPL = 0", position: "right", fill: "oklch(0.6 0.22 25)", fontSize: 11 }} />
-                <Scatter data={sim.pts} fill="oklch(0.55 0.15 158)" fillOpacity={0.55} />
+                <Scatter data={sim?.pts ?? []} fill="oklch(0.55 0.15 158)" fillOpacity={0.55} />
               </ScatterChart>
             </ResponsiveContainer>
           </div>
