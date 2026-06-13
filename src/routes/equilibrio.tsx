@@ -209,7 +209,7 @@ function ContribRow({
 function Equilibrio() {
   const { inputs, municipio } = useScenario();
   const { cambio, isFallback } = useCambio();
-  const { precoMedioUSD, isFallback: isCarbonFallback } = useCarbonPrice();
+  const { precoMedioUSD, carbonSource, isFallback: isCarbonFallback } = useCarbonPrice();
 
   // PLD — leitura estática do pld-config.json via submercado do município
   const submercado = getSubmercado(municipio?.regiao ?? "SE");
@@ -426,7 +426,10 @@ function Equilibrio() {
                     <span>cotação indisponível — usando referência</span>
                   ) : (
                     <span>
-                      Mercado BR hoje:{" "}
+                      {carbonSource === "mco2"
+                        ? "Mercado de carbono (MCO2)"
+                        : "Mercado de carbono (índice)"}
+                      {" "}hoje:{" "}
                       <span className="font-medium text-foreground tabular-nums">
                         USD {precoMedioUSD.toFixed(2)}/tCO₂eq ≈ R${" "}
                         {(precoMedioUSD * cambio).toLocaleString("pt-BR", {
@@ -451,9 +454,10 @@ function Equilibrio() {
                         side="top"
                         className="max-w-72 text-xs leading-snug"
                       >
-                        Preço médio dos créditos de carbono de projetos brasileiros
-                        listados na Carbonmark (carbonmark.com). Atualizado a cada
-                        hora. Conversão USD/BRL via Banco Central do Brasil.
+                        MCO2 (Moss Carbon Credit) é o principal índice de crédito de
+                        carbono brasileiro, listado na Carbonmark (carbonmark.com).
+                        Atualizado a cada hora. Conversão USD/BRL via Banco Central
+                        do Brasil.
                       </UiTooltipContent>
                     </UiTooltip>
                   </UiTooltipProvider>
