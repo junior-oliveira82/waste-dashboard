@@ -19,7 +19,7 @@ import {
   TooltipProvider as UiTooltipProvider,
   TooltipTrigger as UiTooltipTrigger,
 } from "@/components/ui/tooltip";
-import { TrendingUp, AlertTriangle, Zap, Truck, Leaf, MapPin } from "lucide-react";
+import { TrendingUp, AlertTriangle, Zap, Truck, Leaf } from "lucide-react";
 import { IconInfoCircle, IconMapPin } from "@tabler/icons-react";
 import {
   Bar,
@@ -490,13 +490,6 @@ function Equilibrio() {
             />
           </div>
 
-          {/* Rodapé — município */}
-          {municipio && (
-            <div className="flex items-center gap-1.5 text-sm text-muted-foreground px-0.5">
-              <MapPin className="size-3.5 shrink-0" />
-              Cenário: {municipio.nome} — {municipio.uf}
-            </div>
-          )}
         </div>
 
         {/* ── Coluna direita: resultados e gráficos ── */}
