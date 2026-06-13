@@ -7,10 +7,18 @@ import {
   type RouteResult,
 } from "@/lib/scenario-store";
 import { useCambio } from "@/hooks/useCambio";
+import { useCarbonPrice } from "@/hooks/useCarbonPrice";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import {
+  Tooltip as UiTooltip,
+  TooltipContent as UiTooltipContent,
+  TooltipProvider as UiTooltipProvider,
+  TooltipTrigger as UiTooltipTrigger,
+} from "@/components/ui/tooltip";
 import { TrendingUp, AlertTriangle, Zap, Truck, Leaf, MapPin } from "lucide-react";
+import { IconInfoCircle } from "@tabler/icons-react";
 import {
   Bar,
   BarChart,
@@ -199,6 +207,7 @@ function ContribRow({
 function Equilibrio() {
   const { inputs, municipio } = useScenario();
   const { cambio, isFallback } = useCambio();
+  const { precoMedioUSD, isFallback: isCarbonFallback } = useCarbonPrice();
 
   const [rota, setRota] = useState<"pirolise" | "htc">("pirolise");
 
@@ -368,6 +377,45 @@ function Equilibrio() {
                     })}
                     /tCO₂eq
                   </div>
+                </div>
+
+                {/* Preço médio de mercado — Carbonmark */}
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                  {isCarbonFallback ? (
+                    <span>cotação indisponível — usando referência</span>
+                  ) : (
+                    <span>
+                      Mercado BR hoje:{" "}
+                      <span className="font-medium text-foreground tabular-nums">
+                        USD {precoMedioUSD.toFixed(2)}/tCO₂eq ≈ R${" "}
+                        {(precoMedioUSD * cambio).toLocaleString("pt-BR", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </span>
+                    </span>
+                  )}
+                  <UiTooltipProvider>
+                    <UiTooltip>
+                      <UiTooltipTrigger asChild>
+                        <button
+                          type="button"
+                          className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
+                          aria-label="Sobre o preço de mercado"
+                        >
+                          <IconInfoCircle className="size-3.5" />
+                        </button>
+                      </UiTooltipTrigger>
+                      <UiTooltipContent
+                        side="top"
+                        className="max-w-72 text-xs leading-snug"
+                      >
+                        Preço médio dos créditos de carbono de projetos brasileiros
+                        listados na Carbonmark (carbonmark.com). Atualizado a cada
+                        hora. Conversão USD/BRL via Banco Central do Brasil.
+                      </UiTooltipContent>
+                    </UiTooltip>
+                  </UiTooltipProvider>
                 </div>
               </div>
             </CardContent>
