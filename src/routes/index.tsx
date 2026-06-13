@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { useScenario, type Inputs } from "@/lib/scenario-store";
+import { useScenario, type Inputs, type ModeloComercializacao } from "@/lib/scenario-store";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -35,6 +35,64 @@ function Field({ label, name, unit, step = 1 }: { label: string; name: keyof Inp
           large
         />
         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-muted-foreground">{unit}</span>
+      </div>
+    </div>
+  );
+}
+
+const MODELOS_COMERCIALIZACAO: { key: ModeloComercializacao; label: string; preco: number; faixaMin: number; faixaMax: number }[] = [
+  { key: 'acl', label: 'Mercado Livre (ACL)', preco: 150, faixaMin: 147, faixaMax: 400 },
+  { key: 'ppa', label: 'PPA Bilateral', preco: 220, faixaMin: 180, faixaMax: 300 },
+  { key: 'acr', label: 'Tarifa Regulada (ACR)', preco: 280, faixaMin: 240, faixaMax: 380 },
+];
+
+const CONTEXTO_MODELO: Record<ModeloComercializacao, string> = {
+  acl: 'Referência: PLD médio CCEE — piso regulatório R$ 147/MWh',
+  ppa: 'Referência: contratos bilaterais de longo prazo — fontes incentivadas',
+  acr: 'Referência: Leilões de Energia Nova ANEEL (A-4/A-6) — biomassa e RSU',
+};
+
+function EnergiaSelector() {
+  const { inputs, setInput } = useScenario();
+  const modelo = inputs.modeloComercializacao;
+  const modeloInfo = MODELOS_COMERCIALIZACAO.find((m) => m.key === modelo);
+
+  return (
+    <div className="space-y-3">
+      <Label className="text-lg font-medium text-muted-foreground">Modelo de Comercialização</Label>
+      <div className="flex gap-2">
+        {MODELOS_COMERCIALIZACAO.map((m) => (
+          <Button
+            key={m.key}
+            type="button"
+            variant={modelo === m.key ? 'default' : 'outline'}
+            size="sm"
+            className="flex-1 text-sm h-10"
+            onClick={() => {
+              setInput('modeloComercializacao', m.key);
+              setInput('precoEnergia', m.preco);
+            }}
+          >
+            {m.label}
+          </Button>
+        ))}
+      </div>
+      <p className="text-sm text-muted-foreground italic">{CONTEXTO_MODELO[modelo]}</p>
+      <div className="space-y-2">
+        <Label className="text-lg font-medium text-muted-foreground">
+          Preço da Energia{modeloInfo ? ` — faixa sugerida: R$ ${modeloInfo.faixaMin}–${modeloInfo.faixaMax}/MWh` : ''}
+        </Label>
+        <div className="relative">
+          <Input
+            type="number"
+            step={1}
+            value={inputs.precoEnergia}
+            onChange={(e) => setInput('precoEnergia', parseFloat(e.target.value) || 0)}
+            className="pr-20"
+            large
+          />
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-muted-foreground">R$/MWh</span>
+        </div>
       </div>
     </div>
   );
@@ -121,7 +179,7 @@ function Index() {
             </CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 gap-5">
-            <Field label="Preço da Energia" name="precoEnergia" unit="R$/MWh" />
+            <EnergiaSelector />
             <Field label="Tarifa de Recepção (Gate Fee)" name="gateFee" unit="R$/t" />
             <Field label="Preço do Crédito de Carbono" name="precoCarbono" unit="R$/tCO2eq" />
           </CardContent>

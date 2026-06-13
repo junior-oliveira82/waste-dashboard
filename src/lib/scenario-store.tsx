@@ -9,6 +9,8 @@ export interface MunicipioSelecionado {
   regiao: RegiaoSigla;
 }
 
+export type ModeloComercializacao = 'acl' | 'ppa' | 'acr';
+
 export type Inputs = {
   forsu: number;
   lodo: number;
@@ -22,6 +24,7 @@ export type Inputs = {
   energiaPorToneladaPirolise: number;
   eficienciaHTC: number;
   energiaPorToneladaHTC: number;
+  modeloComercializacao: ModeloComercializacao;
 };
 
 export const DEFAULT: Inputs = {
@@ -30,13 +33,14 @@ export const DEFAULT: Inputs = {
   umidade: 60,
   cinzas: 15,
   pci: 14,
-  precoEnergia: 320,
+  precoEnergia: 220,
   gateFee: 180,
   precoCarbono: 180,
   eficienciaPirolise: 20,
   energiaPorToneladaPirolise: 0.45,
   eficienciaHTC: 25,
   energiaPorToneladaHTC: 0.60,
+  modeloComercializacao: 'ppa',
 };
 
 export type RouteResult = {
