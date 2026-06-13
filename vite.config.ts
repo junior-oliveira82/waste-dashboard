@@ -20,4 +20,11 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    define: {
+      "import.meta.env.VITE_CARBONMARK_API_KEY": JSON.stringify(
+        "cm_api_sandbox_d2202454-faef-4ee2-8137-997937f6ca40",
+      ),
+    },
+  },
 });
