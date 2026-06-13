@@ -1,5 +1,4 @@
-import { jsPDF } from "jspdf";
-import { autoTable } from "jspdf-autotable";
+import type { jsPDF } from "jspdf";
 import type { TEAReportData } from "@/types/report";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -22,9 +21,11 @@ function tableEndY(doc: jsPDF): number {
 
 // ─── main export ────────────────────────────────────────────────────────────
 
-export function generateTEAReport(data: TEAReportData): void {
-  console.log('modeloComercializacao recebido:', data.modeloComercializacao);
-  const doc  = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
+export async function generateTEAReport(data: TEAReportData): Promise<void> {
+  if (typeof window === 'undefined') return;
+  const { jsPDF: JsPDF } = await import('jspdf');
+  const { autoTable } = await import('jspdf-autotable');
+  const doc  = new JsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const PW   = doc.internal.pageSize.getWidth();
   const PH   = doc.internal.pageSize.getHeight();
   const M    = 15;

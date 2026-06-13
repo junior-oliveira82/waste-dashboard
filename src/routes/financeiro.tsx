@@ -98,7 +98,7 @@ function Financeiro() {
 
   const sim = useMemo(() => runMonteCarlo(inputs, rota, 500), [inputs, rota, seed]);
 
-  function handleExportPDF() {
+  async function handleExportPDF() {
     const simP = runMonteCarlo(inputs, "pirolise", 500);
     const simH = runMonteCarlo(inputs, "htc", 500);
     const vplMedioP = simP.pts.reduce((acc, pt) => acc + pt.vpl, 0) / simP.pts.length;
@@ -120,8 +120,7 @@ function Financeiro() {
       dataGeracao: new Date(),
     };
 
-    console.log('reportData.modeloComercializacao:', reportData.modeloComercializacao);
-    generateTEAReport(reportData);
+    await generateTEAReport(reportData);
   }
 
   return (
