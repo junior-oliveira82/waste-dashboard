@@ -8,6 +8,8 @@ import {
 } from "@/lib/scenario-store";
 import { useCambio } from "@/hooks/useCambio";
 import { useCarbonPrice } from "@/hooks/useCarbonPrice";
+import { usePLD } from "@/hooks/usePLD";
+import { getSubmercado, getSubmercadoNome } from "@/utils/submercado";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -18,7 +20,7 @@ import {
   TooltipTrigger as UiTooltipTrigger,
 } from "@/components/ui/tooltip";
 import { TrendingUp, AlertTriangle, Zap, Truck, Leaf, MapPin } from "lucide-react";
-import { IconInfoCircle } from "@tabler/icons-react";
+import { IconInfoCircle, IconMapPin } from "@tabler/icons-react";
 import {
   Bar,
   BarChart,
@@ -209,6 +211,10 @@ function Equilibrio() {
   const { cambio, isFallback } = useCambio();
   const { precoMedioUSD, isFallback: isCarbonFallback } = useCarbonPrice();
 
+  // PLD — leitura estática do pld-config.json via submercado do município
+  const submercado = getSubmercado(municipio?.regiao ?? "SE");
+  const { pld, dataReferencia } = usePLD(submercado);
+
   const [rota, setRota] = useState<"pirolise" | "htc">("pirolise");
 
   // Sliders: inicializam com valores do scenario-store global
@@ -261,10 +267,45 @@ function Equilibrio() {
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-6">
       {/* Cabeçalho */}
-      <header>
+      <header className="space-y-2">
         <h1 className="text-4xl font-semibold tracking-tight">
           Ponto de Equilíbrio
         </h1>
+
+        {/* Badge dinâmico — município + submercado + PLD */}
+        {municipio && (
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/50 px-3 py-1 text-sm text-muted-foreground">
+            <IconMapPin className="size-3.5 shrink-0 text-primary" />
+            <span>
+              <span className="font-medium text-foreground">
+                {municipio.nome} — {municipio.uf}
+              </span>
+              {" · "}Submercado {getSubmercadoNome(submercado)}
+              {" · "}PLD referência:{" "}
+              <span className="font-medium text-foreground tabular-nums">
+                R$ {pld.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}/MWh
+              </span>
+            </span>
+            <UiTooltipProvider>
+              <UiTooltip>
+                <UiTooltipTrigger asChild>
+                  <button
+                    type="button"
+                    className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
+                    aria-label="Sobre o PLD"
+                  >
+                    <IconInfoCircle className="size-3.5" />
+                  </button>
+                </UiTooltipTrigger>
+                <UiTooltipContent side="bottom" className="max-w-72 text-xs leading-snug">
+                  PLD (Preço de Liquidação das Diferenças) do submercado correspondente
+                  ao município selecionado. Fonte: CCEE — Dados Abertos. Referência:{" "}
+                  {dataReferencia}. Atualizado mensalmente.
+                </UiTooltipContent>
+              </UiTooltip>
+            </UiTooltipProvider>
+          </div>
+        )}
       </header>
 
       {/* Layout duas colunas */}
