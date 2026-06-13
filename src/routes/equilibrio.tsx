@@ -7,7 +7,6 @@ import {
   type RouteResult,
 } from "@/lib/scenario-store";
 import { useCambio } from "@/hooks/useCambio";
-import { useCarbonPrice } from "@/hooks/useCarbonPrice";
 import { usePLD } from "@/hooks/usePLD";
 import { getSubmercado, getSubmercadoNome } from "@/utils/submercado";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -209,7 +208,6 @@ function ContribRow({
 function Equilibrio() {
   const { inputs, municipio } = useScenario();
   const { cambio, isFallback } = useCambio();
-  const { precoMedioUSD } = useCarbonPrice();
 
   // PLD — leitura estática do pld-config.json via submercado do município
   const submercado = getSubmercado(municipio?.regiao ?? "SE");
@@ -420,41 +418,6 @@ function Equilibrio() {
                   </div>
                 </div>
 
-                {/* Preço médio de mercado — Carbonmark */}
-                <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  <span>
-                    Mercado de carbono (MCO2):{" "}
-                    <span className="font-medium text-foreground tabular-nums">
-                      USD {precoMedioUSD.toFixed(2)}/tCO₂eq ≈ R${" "}
-                      {(precoMedioUSD * cambio).toLocaleString("pt-BR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}
-                    </span>
-                  </span>
-                  <UiTooltipProvider>
-                    <UiTooltip>
-                      <UiTooltipTrigger asChild>
-                        <button
-                          type="button"
-                          className="inline-flex items-center text-muted-foreground hover:text-foreground transition-colors"
-                          aria-label="Sobre o preço de mercado"
-                        >
-                          <IconInfoCircle className="size-3.5" />
-                        </button>
-                      </UiTooltipTrigger>
-                      <UiTooltipContent
-                        side="top"
-                        className="max-w-72 text-xs leading-snug"
-                      >
-                        MCO2 (Moss Carbon Credit) é o principal índice de crédito de
-                        carbono brasileiro, listado na Carbonmark (carbonmark.com).
-                        Atualizado a cada hora. Conversão USD/BRL via Banco Central
-                        do Brasil.
-                      </UiTooltipContent>
-                    </UiTooltip>
-                  </UiTooltipProvider>
-                </div>
               </div>
             </CardContent>
           </Card>
