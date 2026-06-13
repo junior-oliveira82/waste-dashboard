@@ -16,10 +16,10 @@ function RouteCard({ r, kind }: { r: RouteResult; kind: "A" | "B" }) {
     <Card className="border-border/60">
       <CardHeader className="space-y-2">
         <div className="flex items-center justify-between">
-          <Badge variant="secondary" className="uppercase tracking-wider text-[10px]">Rota {kind}</Badge>
+          <Badge variant="secondary" className="uppercase tracking-wider text-[15px]">Rota {kind}</Badge>
           <Icon className="size-5 text-primary" />
         </div>
-        <CardTitle className="text-lg">{r.nome}</CardTitle>
+        <CardTitle className="text-[27px]">{r.nome}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         <Metric label={kind === "A" ? "Rendimento de biochar" : "Rendimento de hidrochar"} value={`${(r.rendimentoSolido * 100).toFixed(1)} %`} />
@@ -34,8 +34,8 @@ function RouteCard({ r, kind }: { r: RouteResult; kind: "A" | "B" }) {
 function Metric({ label, value, highlight }: { label: string; value: string; highlight?: boolean }) {
   return (
     <div className="flex items-center justify-between py-2 border-b border-border/40 last:border-0">
-      <span className="text-sm text-muted-foreground">{label}</span>
-      <span className={`font-semibold ${highlight ? "text-primary text-lg" : "text-foreground"}`}>{value}</span>
+      <span className="text-xl text-muted-foreground">{label}</span>
+      <span className={`font-semibold ${highlight ? "text-primary text-[27px]" : "text-foreground text-2xl"}`}>{value}</span>
     </div>
   );
 }
@@ -53,7 +53,7 @@ function Comparacao() {
     <div className="p-8 max-w-6xl mx-auto space-y-8">
       <header>
         <h1 className="text-3xl font-semibold tracking-tight">Comparação Tecnológica</h1>
-        <p className="text-sm text-muted-foreground mt-1">
+        <p className="text-xl text-muted-foreground mt-1">
           Análise lado a lado das rotas de conversão termoquímica para o cenário configurado.
         </p>
       </header>
@@ -65,15 +65,15 @@ function Comparacao() {
 
       <Card className="border-border/60">
         <CardHeader>
-          <CardTitle className="text-base">Comparativo de desempenho</CardTitle>
+          <CardTitle className="text-2xl">Comparativo de desempenho</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-80">
+          <div className="h-[350px]">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={data}>
+              <BarChart data={data} margin={{ bottom: 50, left: 20, right: 20, top: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="oklch(0.9 0.015 160)" />
-                <XAxis dataKey="metric" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} />
+                <XAxis dataKey="metric" tick={{ fontSize: 15 }} angle={-35} textAnchor="end" />
+                <YAxis tick={{ fontSize: 15 }} />
                 <Tooltip contentStyle={{ borderRadius: 8, border: "1px solid oklch(0.9 0.015 160)" }} />
                 <Legend />
                 <Bar dataKey="Pirólise" fill="oklch(0.55 0.15 158)" radius={[6, 6, 0, 0]} />
