@@ -209,7 +209,7 @@ function ContribRow({
 function Equilibrio() {
   const { inputs, municipio } = useScenario();
   const { cambio, isFallback } = useCambio();
-  const { precoMedioUSD, carbonSource, isFallback: isCarbonFallback } = useCarbonPrice();
+  const { precoMedioUSD } = useCarbonPrice();
 
   // PLD — leitura estática do pld-config.json via submercado do município
   const submercado = getSubmercado(municipio?.regiao ?? "SE");
@@ -422,23 +422,16 @@ function Equilibrio() {
 
                 {/* Preço médio de mercado — Carbonmark */}
                 <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                  {isCarbonFallback ? (
-                    <span>cotação indisponível — usando referência</span>
-                  ) : (
-                    <span>
-                      {carbonSource === "mco2"
-                        ? "Mercado de carbono (MCO2)"
-                        : "Mercado de carbono (índice)"}
-                      {" "}hoje:{" "}
-                      <span className="font-medium text-foreground tabular-nums">
-                        USD {precoMedioUSD.toFixed(2)}/tCO₂eq ≈ R${" "}
-                        {(precoMedioUSD * cambio).toLocaleString("pt-BR", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}
-                      </span>
+                  <span>
+                    Mercado de carbono (MCO2):{" "}
+                    <span className="font-medium text-foreground tabular-nums">
+                      USD {precoMedioUSD.toFixed(2)}/tCO₂eq ≈ R${" "}
+                      {(precoMedioUSD * cambio).toLocaleString("pt-BR", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
                     </span>
-                  )}
+                  </span>
                   <UiTooltipProvider>
                     <UiTooltip>
                       <UiTooltipTrigger asChild>
