@@ -31,7 +31,8 @@ function Field({ label, name, unit, step = 1 }: { label: string; name: keyof Inp
           step={step}
           value={inputs[name]}
           onChange={(e) => setInput(name, parseFloat(e.target.value) || 0)}
-          className="pr-20 h-10 text-3xl font-medium"
+          className="pr-20"
+          large
         />
         <span className="absolute right-3 top-1/2 -translate-y-1/2 text-lg text-muted-foreground">{unit}</span>
       </div>
