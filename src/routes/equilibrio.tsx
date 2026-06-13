@@ -102,7 +102,7 @@ function VplCard({ label, vpl }: { label: string; vpl: number }) {
   return (
     <Card className="border-border/60">
       <CardContent className="pt-5 space-y-1">
-        <div className="flex items-center gap-1.5 text-sm uppercase tracking-wider text-muted-foreground">
+        <div className="flex items-center gap-1.5 text-xl uppercase tracking-wider text-muted-foreground">
           <TrendingUp className="size-3.5" /> {label}
         </div>
         <div
@@ -110,7 +110,7 @@ function VplCard({ label, vpl }: { label: string; vpl: number }) {
         >
           R$ {(vpl / 1_000_000).toFixed(1)} M
         </div>
-        <div className="text-xs text-muted-foreground">VPL 10 anos, 12%</div>
+        <div className="text-lg text-muted-foreground">VPL 10 anos, 12%</div>
       </CardContent>
     </Card>
   );
@@ -137,30 +137,30 @@ function BreakEvenCard({
       className={`border-border/60 ${viable ? "bg-green-50/50 border-green-300/60" : ""}`}
     >
       <CardContent className="pt-4 pb-4 space-y-1">
-        <div className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-muted-foreground">
+        <div className="flex items-center gap-1.5 text-lg uppercase tracking-wider text-muted-foreground">
           <Icon className="size-3 text-primary" /> {label}
         </div>
         {infeasible ? (
-          <div className="text-base font-medium text-destructive">
+          <div className="text-2xl font-medium text-destructive">
             Inviável neste cenário
           </div>
         ) : viable ? (
-          <div className="text-base font-medium text-green-700">
+          <div className="text-2xl font-medium text-green-700">
             Lucrativo sem esta fonte
           </div>
         ) : (
-          <div className="text-2xl font-semibold tabular-nums text-foreground">
+          <div className="text-4xl font-semibold tabular-nums text-foreground">
             {value.toLocaleString("pt-BR", {
               minimumFractionDigits: 2,
               maximumFractionDigits: 2,
             })}{" "}
-            <span className="text-sm font-normal text-muted-foreground">
+            <span className="text-xl font-normal text-muted-foreground">
               {unit}
             </span>
           </div>
         )}
         {extra && !viable && !infeasible && (
-          <div className="text-xs text-muted-foreground">{extra}</div>
+          <div className="text-lg text-muted-foreground">{extra}</div>
         )}
       </CardContent>
     </Card>
@@ -182,7 +182,7 @@ function ContribRow({
 }) {
   return (
     <div className="space-y-1">
-      <div className="flex items-center justify-between text-sm">
+      <div className="flex items-center justify-between text-xl">
         <span className="flex items-center gap-1.5 text-muted-foreground">
           <Icon className="size-3 text-primary" /> {label}
         </span>
@@ -272,7 +272,7 @@ function Equilibrio() {
 
         {/* Badge dinâmico — município + submercado + PLD */}
         {municipio && (
-          <div className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/50 px-3 py-1 text-sm text-muted-foreground">
+          <div className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-muted/50 px-3 py-1 text-xl text-muted-foreground">
             <IconMapPin className="size-3.5 shrink-0 text-primary" />
             <span>
               <span className="font-medium text-foreground">
@@ -295,7 +295,7 @@ function Equilibrio() {
                     <IconInfoCircle className="size-3.5" />
                   </button>
                 </UiTooltipTrigger>
-                <UiTooltipContent side="bottom" className="max-w-72 text-xs leading-snug">
+                <UiTooltipContent side="bottom" className="max-w-72 text-lg leading-snug">
                   PLD (Preço de Liquidação das Diferenças) do submercado correspondente
                   ao município selecionado. Fonte: CCEE — Dados Abertos. Referência:{" "}
                   {dataReferencia}. Atualizado mensalmente.
@@ -313,7 +313,7 @@ function Equilibrio() {
           {/* Título + seletor de rota */}
           <Card className="border-border/60">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold leading-snug">
+              <CardTitle className="text-2xl font-semibold leading-snug">
                 Simulador de ponto de equilíbrio — três fontes de receita
               </CardTitle>
             </CardHeader>
@@ -341,12 +341,12 @@ function Equilibrio() {
               {/* Slider energia */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-1.5 text-base font-medium">
+                  <label className="flex items-center gap-1.5 text-2xl font-medium">
                     <Zap className="size-3.5 text-primary" /> Preço da Energia
                   </label>
-                  <span className="text-base font-semibold tabular-nums">
+                  <span className="text-2xl font-semibold tabular-nums">
                     R$ {precoEnergia}{" "}
-                    <span className="text-sm text-muted-foreground font-normal">
+                    <span className="text-xl text-muted-foreground font-normal">
                       /MWh
                     </span>
                   </span>
@@ -358,7 +358,7 @@ function Equilibrio() {
                   step={5}
                   onValueChange={([v]) => setPrecoEnergia(v!)}
                 />
-                <div className="flex justify-between text-xs text-muted-foreground">
+                <div className="flex justify-between text-lg text-muted-foreground">
                   <span>R$ 100</span>
                   <span>R$ 800</span>
                 </div>
@@ -367,12 +367,12 @@ function Equilibrio() {
               {/* Slider carbono (USD) */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <label className="flex items-center gap-1.5 text-base font-medium">
+                  <label className="flex items-center gap-1.5 text-2xl font-medium">
                     <Leaf className="size-3.5 text-primary" /> Preço do Carbono
                   </label>
-                  <span className="text-base font-semibold tabular-nums">
+                  <span className="text-2xl font-semibold tabular-nums">
                     USD {precoCarbonoUSD}{" "}
-                    <span className="text-sm text-muted-foreground font-normal">
+                    <span className="text-xl text-muted-foreground font-normal">
                       /tCO₂eq
                     </span>
                   </span>
@@ -384,13 +384,13 @@ function Equilibrio() {
                   step={1}
                   onValueChange={([v]) => setPrecoCarbonoUSD(v!)}
                 />
-                <div className="flex justify-between text-xs text-muted-foreground">
+                <div className="flex justify-between text-lg text-muted-foreground">
                   <span>USD 5</span>
                   <span>USD 150</span>
                 </div>
                 {/* Cotação em tempo real */}
                 <div
-                  className={`rounded-md px-3 py-2 space-y-0.5 text-sm ${
+                  className={`rounded-md px-3 py-2 space-y-0.5 text-xl ${
                     isFallback
                       ? "bg-yellow-50 border border-yellow-200"
                       : "bg-muted/40"
@@ -424,7 +424,7 @@ function Equilibrio() {
 
           {/* Cards de resultado — ponto de equilíbrio */}
           <div className="space-y-2">
-            <p className="text-xs uppercase tracking-wider text-muted-foreground font-medium px-0.5">
+            <p className="text-lg uppercase tracking-wider text-muted-foreground font-medium px-0.5">
               Mínimos para VPL = 0 ({rota === "pirolise" ? "Pirólise" : "HTC"})
             </p>
             <BreakEvenCard
@@ -463,11 +463,11 @@ function Equilibrio() {
           {/* Gráfico de sensibilidade: VPL × gate fee */}
           <Card className="border-border/60">
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">
+              <CardTitle className="text-2xl">
                 Sensibilidade do VPL ao gate fee —{" "}
                 {rota === "pirolise" ? "Pirólise" : "HTC"}
               </CardTitle>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-lg text-muted-foreground">
                 Energia R$ {precoEnergia}/MWh · Carbono USD {precoCarbonoUSD}/tCO₂eq
                 fixos
               </p>
@@ -485,23 +485,23 @@ function Equilibrio() {
                     />
                     <XAxis
                       dataKey="label"
-                      tick={{ fontSize: 12 }}
+                      tick={{ fontSize: 18 }}
                       label={{
                         value: "Gate fee (R$/t)",
                         position: "insideBottom",
                         offset: -2,
-                        fontSize: 12,
+                        fontSize: 18,
                         fill: "oklch(0.55 0 0)",
                       }}
                     />
                     <YAxis
-                      tick={{ fontSize: 12 }}
+                      tick={{ fontSize: 18 }}
                       tickFormatter={(v: number) => `${v.toFixed(0)} M`}
                       label={{
                         value: "VPL (R$ M)",
                         angle: -90,
                         position: "insideLeft",
-                        fontSize: 12,
+                        fontSize: 18,
                         fill: "oklch(0.55 0 0)",
                       }}
                     />
@@ -513,7 +513,7 @@ function Equilibrio() {
                       contentStyle={{
                         borderRadius: 8,
                         border: "1px solid oklch(0.9 0.015 160)",
-                        fontSize: 13,
+                        fontSize: 20,
                       }}
                     />
                     <ReferenceLine
@@ -524,7 +524,7 @@ function Equilibrio() {
                         value: "VPL = 0",
                         position: "right",
                         fill: "oklch(0.6 0.22 25)",
-                        fontSize: 12,
+                        fontSize: 18,
                       }}
                     />
                     <Bar
@@ -541,10 +541,10 @@ function Equilibrio() {
           {/* Contribuição percentual das fontes de receita */}
           <Card className="border-border/60">
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">
+              <CardTitle className="text-2xl">
                 Mix de receita — cenário atual
               </CardTitle>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-lg text-muted-foreground">
                 Receita total: {fmtM(current.receitaAnual)}/ano
               </p>
             </CardHeader>
@@ -573,7 +573,7 @@ function Equilibrio() {
 
               {/* Aviso se cotação é fallback */}
               {isFallback && (
-                <div className="flex items-start gap-2 rounded-md bg-yellow-50 border border-yellow-200 px-3 py-2 text-sm text-yellow-800">
+                <div className="flex items-start gap-2 rounded-md bg-yellow-50 border border-yellow-200 px-3 py-2 text-xl text-yellow-800">
                   <AlertTriangle className="size-3.5 shrink-0 mt-0.5" />
                   <span>
                     Cotação USD/BRL indisponível — usando fallback R$ 5,50.
