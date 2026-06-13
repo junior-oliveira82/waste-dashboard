@@ -5,14 +5,14 @@ const items = [
   { to: "/", label: "Entrada de Dados", icon: Sliders },
   { to: "/comparacao", label: "Comparação Tecnológica", icon: GitCompare },
   { to: "/financeiro", label: "Análise Financeira (TEA)", icon: LineChart },
-  { to: "/comparador", label: "Comparador de Municípios", icon: BarChart3 },
   { to: "/equilibrio", label: "Ponto de Equilíbrio", icon: Scale },
+  { to: "/comparador", label: "Comparador de Municípios", icon: BarChart3 },
 ] as const;
 
 export function AppSidebar() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   return (
-    <aside className="hidden md:flex w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
+    <aside className="hidden md:flex w-64 shrink-0 flex-col bg-sidebar text-sidebar-foreground border-r border-sidebar-border sticky top-0 h-screen">
       <div className="px-5 py-6 flex items-center gap-2 border-b border-sidebar-border">
         <div className="size-9 rounded-lg bg-sidebar-primary text-sidebar-primary-foreground grid place-items-center">
           <Leaf className="size-5" />
