@@ -15,6 +15,9 @@ export interface TEAReportData {
   totalResiduos: number | null;
   classificacao: Classificacao | null;
 
+  // Modelo de comercialização de energia selecionado
+  modeloComercializacao: 'acl' | 'ppa' | 'acr';
+
   // Parâmetros de entrada da TEA
   inputs: Inputs;
 

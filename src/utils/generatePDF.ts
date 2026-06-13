@@ -89,13 +89,19 @@ export function generateTEAReport(data: TEAReportData): void {
   doc.text("1. Parâmetros de Entrada", M, y);
   y += 2;
 
+  const NOTA_ENERGIA: Record<'acl' | 'ppa' | 'acr', string> = {
+    acl: "Mercado Livre — referência PLD médio CCEE, piso R$ 147/MWh",
+    ppa: "Contrato bilateral de longo prazo — fontes incentivadas",
+    acr: "Tarifa regulada — Leilões de Energia Nova ANEEL (A-4/A-6)",
+  };
+
   const paramRows: [string, string, string][] = [
     ["FORSU processada",               `${n2(i.forsu)} t/dia`,                      "SNIS 2023: geração per capita × índice coleta × fração orgânica"],
     ["Lodo de esgoto",                 `${n2(i.lodo)} t/dia`,                       "SNIS 2023: geração lodo per capita × atendimento de esgoto"],
     ["Umidade da biomassa",            `${n2(i.umidade, 0)} %`,                     "Valor típico para FORSU úmida"],
     ["Teor de cinzas",                 `${n2(i.cinzas, 0)} %`,                      "Base seca"],
     ["PCI (base úmida)",               `${n2(i.pci)} MJ/kg`,                        "Poder calorífico inferior"],
-    ["Preço da energia",               `R$ ${n2(i.precoEnergia, 0)}/MWh`,           "Tarifa industrial ANEEL"],
+    ["Preço da energia",               `R$ ${n2(i.precoEnergia, 0)}/MWh`,           NOTA_ENERGIA[data.modeloComercializacao]],
     ["Gate fee",                       `R$ ${n2(i.gateFee, 0)}/t`,                  "Referência mercado nacional"],
     ["Preço do carbono",               `R$ ${n2(i.precoCarbono, 0)}/tCO2eq`,        "Mercado voluntário de carbono"],
     ["Efic. elétrica — Pirólise",      `${n2(i.eficienciaPirolise, 0)} %`,          "CHP com óleo de pirólise"],

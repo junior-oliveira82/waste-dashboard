@@ -111,6 +111,7 @@ function Financeiro() {
       lodoEstimado:  diagnostico?.lodo          ?? null,
       totalResiduos: diagnostico?.totalResiduos ?? null,
       classificacao: diagnostico?.classificacao ?? null,
+      modeloComercializacao: inputs.modeloComercializacao,
       inputs,
       pirolise,
       htc,
