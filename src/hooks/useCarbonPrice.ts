@@ -26,6 +26,17 @@ function extractPrice(project: CarbonmarkProject): number | null {
   return null;
 }
 
+function resolveProjectsArray(data: unknown): CarbonmarkProject[] | null {
+  if (Array.isArray(data)) return data as CarbonmarkProject[];
+  if (data && typeof data === "object") {
+    const obj = data as Record<string, unknown>;
+    for (const key of ["items", "projects", "data", "results"]) {
+      if (Array.isArray(obj[key])) return obj[key] as CarbonmarkProject[];
+    }
+  }
+  return null;
+}
+
 export function useCarbonPrice() {
   const { data, isError, isLoading } = useQuery<number>({
     queryKey: ["carbonmark-br-price"],
@@ -35,15 +46,17 @@ export function useCarbonPrice() {
         { headers: { Accept: "application/json" } },
       );
       if (!resp.ok) throw new Error(`Carbonmark respondeu ${resp.status}`);
-      const data = (await resp.json()) as CarbonmarkProject[];
+      const raw = await resp.json();
 
-      // Log temporário para inspecionar o formato real da resposta
-      console.log("Carbonmark sample:", JSON.stringify(data[0], null, 2));
+      // Logs temporários de diagnóstico
+      console.log("Carbonmark status:", resp.status);
+      console.log("Carbonmark raw response:", JSON.stringify(raw).substring(0, 1000));
 
-      if (!Array.isArray(data) || data.length === 0)
+      const projects = resolveProjectsArray(raw);
+      if (!projects || projects.length === 0)
         throw new Error("Resposta inválida da Carbonmark");
 
-      const prices = data.map(extractPrice).filter((v): v is number => v !== null);
+      const prices = projects.map(extractPrice).filter((v): v is number => v !== null);
       if (prices.length === 0) throw new Error("Nenhum preço válido retornado");
       return prices.reduce((a, b) => a + b, 0) / prices.length;
     },
