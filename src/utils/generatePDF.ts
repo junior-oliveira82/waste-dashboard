@@ -23,6 +23,7 @@ function tableEndY(doc: jsPDF): number {
 // ─── main export ────────────────────────────────────────────────────────────
 
 export function generateTEAReport(data: TEAReportData): void {
+  console.log('modeloComercializacao recebido:', data.modeloComercializacao);
   const doc  = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const PW   = doc.internal.pageSize.getWidth();
   const PH   = doc.internal.pageSize.getHeight();

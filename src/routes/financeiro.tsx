@@ -120,6 +120,7 @@ function Financeiro() {
       dataGeracao: new Date(),
     };
 
+    console.log('reportData.modeloComercializacao:', reportData.modeloComercializacao);
     generateTEAReport(reportData);
   }
 
